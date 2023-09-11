@@ -100,3 +100,45 @@ function deleteUser(index) {
   // Réaffiche les utilisateurs sur la page
   displayUsers();
 }
+
+
+function countdown(num) {
+  // Condition de sortie : si le nombre est inférieur ou égal à 0
+  if (num <= 0) {
+    console.log("Terminé !");
+  } else {
+    console.log(num);
+    // Appel récursif avec un nombre réduit de 1
+    countdown(num - 1);
+  }
+}
+
+// Appel de la fonction countdown avec le nombre de départ
+countdown(5);
+
+
+function bubbleSort(arr) {
+  const n = arr.length;
+
+  for (let i = 0; i < n - 1; i++) {
+    // Effectuer une passe sur le tableau
+    for (let j = 0; j < n - i - 1; j++) {
+      // Comparer les éléments adjacents
+      if (arr[j] > arr[j + 1]) {
+        // Échanger les éléments si l'élément courant est plus grand que l'élément suivant
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+
+  return arr;
+}
+
+// Exemple d'utilisation
+const array = [5, 3, 8, 4, 2];
+console.log("Avant le tri :", array);
+
+const sortedArray = bubbleSort(array);
+console.log("Après le tri :", sortedArray);
