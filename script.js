@@ -42,34 +42,61 @@ ClearButton.onclick = () => {
 };
 
 function displayUsers() {
-  // Efface la liste existante
-  userListElement.innerHTML = "";
+    userListElement.innerHTML = "";
+  
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      const listItem = document.createElement("li");
+  
+      // Crée un champ d'édition pour le nom
+      const nomInput = document.createElement("input");
+      nomInput.value = user.nom;
+      listItem.appendChild(nomInput);
+  
+      // Crée un champ d'édition pour l'âge
+      const ageInput = document.createElement("input");
+      ageInput.value = user.age;
+      listItem.appendChild(ageInput);
+  
+      // Ajoute un bouton de sauvegarde pour mettre à jour les valeurs
+      const saveButton = document.createElement("button");
+      saveButton.textContent = "Enregistrer";
+      saveButton.addEventListener("click", function () {
+        updateUser(i, nomInput.value, ageInput.value);
+      });
 
-  // Parcourt tous les utilisateurs et les ajoute à la liste
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-    const listItem = document.createElement("li");
-    listItem.textContent = `Nom: ${user.nom}, Âge: ${user.age}`;
+      listItem.appendChild(saveButton);
+  
+      // Ajoute un bouton de suppression pour chaque utilisateur
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Supprimer";
+      deleteButton.addEventListener("click", function () {
+        deleteUser(i);
+      });
+      listItem.appendChild(deleteButton);
 
-    // Ajoute un bouton de suppression pour chaque utilisateur
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Supprimer";
-    deleteButton.addEventListener("click", function () {
-      deleteUser(i);
-    });
-
-    listItem.appendChild(deleteButton);
-    userListElement.appendChild(listItem);
+      userListElement.appendChild(listItem);
+    }
   }
-}
+
+
+  function updateUser(index, newNom, newAge) {
+    // Met à jour les valeurs de l'utilisateur correspondant à l'index donné
+    users[index].nom = newNom;
+    users[index].age = newAge;
+  
+    // Met à jour le stockage local avec le tableau d'utilisateurs mis à jour
+    localStorage.setItem("users", JSON.stringify(users));
+  
+    // Réaffiche les utilisateurs sur la page avec les nouvelles valeurs
+    displayUsers();
+  }
 
 function deleteUser(index) {
   // Supprime l'utilisateur correspondant à l'index donné du tableau d'utilisateurs
   users.splice(index, 1);
-
   // Met à jour le stockage local avec le tableau d'utilisateurs mis à jour
   localStorage.setItem("users", JSON.stringify(users));
-
   // Réaffiche les utilisateurs sur la page
   displayUsers();
 }
